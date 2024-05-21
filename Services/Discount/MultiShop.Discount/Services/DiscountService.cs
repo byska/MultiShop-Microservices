@@ -59,7 +59,7 @@ namespace MultiShop.Discount.Services
             parameters.Add("@couponId", id);
             using (var connection = _context.CreateConnection())
             {
-                var value = await connection.QueryFirstOrDefaultAsync<GetByIdDiscountCouponDto>(query);
+                var value = await connection.QueryFirstOrDefaultAsync<GetByIdDiscountCouponDto>(query,parameters);
                 return value;
             }
         }
