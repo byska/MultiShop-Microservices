@@ -1,5 +1,7 @@
-﻿using MultiShop.Discount.Context;
+﻿using Dapper;
+using MultiShop.Discount.Context;
 using MultiShop.Discount.Dtos;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MultiShop.Discount.Services
 {
@@ -12,29 +14,71 @@ namespace MultiShop.Discount.Services
             _context = context;
         }
 
-        public Task CreateCouponAsync(CreateCouponDto createCouponDto)
+        public async Task CreateCouponAsync(CreateCouponDto createCouponDto)
         {
-            throw new NotImplementedException();
+            string query = "insert into Coupons (Code,Rate,IsActive,ValidDate) values (@code,@rate,@isActive,@validDate)";
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@code", createCouponDto.Code);
+            parameters.Add("@rate", createCouponDto.Rate);
+            parameters.Add("@isActive", createCouponDto.IsActive);
+            parameters.Add("@validDate", createCouponDto.ValidDate);
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            }
         }
 
-        public Task DeleteCouponAsync(int id)
+        public async Task DeleteCouponAsync(int id)
         {
-            throw new NotImplementedException();
+            string query = "Delete From Coupons where CouponId=@couponId";
+            var parameters = new DynamicParameters();
+            parameters.Add("couponId", id);
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            }
         }
 
-        public Task<List<ResultCouponDto>> GetAllCouponAsync()
+        public async Task<List<ResultCouponDto>> GetAllCouponAsync()
         {
-            throw new NotImplementedException();
+            string query = "Select * from Coupons";
+            using (var connection = _context.CreateConnection())
+            {
+                var values = await connection.QueryAsync<ResultCouponDto>(query);
+                return values.ToList();
+            }
         }
 
-        public Task<GetByIdCouponDto> GetByIdCouponAsync(int id)
+        public async Task<GetByIdCouponDto> GetByIdCouponAsync(int id)
         {
-            throw new NotImplementedException();
+            string query = "Select * From Coupons where CouponId=@couponId";
+            var parameters = new DynamicParameters();
+            parameters.Add("@couponId", id);
+            using (var connection = _context.CreateConnection())
+            {
+                var value = await connection.QueryFirstOrDefaultAsync<GetByIdCouponDto>(query);
+                return value;
+            }
         }
 
-        public Task UpdateCouponAsync(UpdateCouponDto updateCouponDto)
+        public async Task UpdateCouponAsync(UpdateCouponDto updateCouponDto)
         {
-            throw new NotImplementedException();
+            string query = "Update Coupons Set Code=@code, Rate=@rate, IsActive=@isActive, ValidDate=@validDate where CouponId=@couponId";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@code", updateCouponDto.Code);
+            parameters.Add("@rate", updateCouponDto.Rate);
+            parameters.Add("@isActive", updateCouponDto.IsActive);
+            parameters.Add("@validDate", updateCouponDto.ValidDate);
+            parameters.Add("@couponId", updateCouponDto.CouponId);
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, parameters);
+            }
         }
     }
 }
