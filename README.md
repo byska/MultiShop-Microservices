@@ -1,9 +1,9 @@
 Bu proje, sıfırdan mikroservis ve yanında birçok yeni konuyu çalışmak üzere geliştirilen bir e-ticaret projesidir. 
 Projede yer alan konular aşağıda sıralanmaktadır.
 
--Onion Architecture
--Redis
--Dapper
+- Onion Architecture
+- Redis
+- Dapper
 -Docker
 -MongoDB
 -PostgreSQL
