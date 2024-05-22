@@ -1,5 +1,5 @@
-Bu proje, sıfırdan mikroservis ve yanında birçok yeni konuyu çalışmak üzere geliştirilen bir e-ticaret projesidir. 
-Projede yer alan konular aşağıda sıralanmaktadır.
+<h2>Bu proje, sıfırdan mikroservis ve yanında birçok yeni konuyu çalışmak üzere geliştirilen bir e-ticaret projesidir. </h2>
+<p>Projede yer alan konular aşağıda sıralanmaktadır.</p>
 
 - Onion Architecture
 - Redis
